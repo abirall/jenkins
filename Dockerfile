@@ -8,5 +8,6 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli \
     --plugin-file /usr/share/jenkins/ref/plugins.txt
 COPY casc/ /var/jenkins_home/casc/
+COPY jobs/ /var/jenkins_home/jobs/
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/casc
 USER jenkins
