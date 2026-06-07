@@ -37,7 +37,7 @@ jobs:
 
           steps {
               jobDsl {
-                  targets('jobs/*.groovy')
+                  targets('/var/jenkins_home/jobs/*.groovy')
               }
           }
       }
