@@ -3,14 +3,12 @@ name: logicandcrayons
 services:
 
   jenkins:
-    build:
-      context: jenkins
-      dockerfile: Dockerfile
+    build: .
     container_name: jenkins
     hostname: jenkins.local
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "curl -fsS http://localhost:8080/jenkins/health || exit 1" ]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/login || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -21,8 +19,20 @@ services:
     ports:
       - "8080:8080"
 
+
+
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      NB_SETUP_KEY: "${NB_SETUP_KEY}"
+      # NB_HOSTNAME: "${NB_HOSTNAME}"
+      NB_MANAGEMENT_URL: "${NB_MANAGEMENT_URL}"
+
+      # JENKINS_ROLE_ARN: "${JENKINS_ROLE_ARN}"
+      JENKINS_HOME: "${JENKINS_HOME:-/var/jenkins_home}"
+      JENKINS_OPTS: "${JENKINS_OPTS:---prefix=/jenkins}"
+      JENKINS_URL: "${JENKINS_URL:-${ROOT_URL}/jenkins}"
+      CASC_JENKINS_CONFIG: "/var/jenkins_home/casc/jenkins.yaml"
+      DOCKER_STACK_DIR: "${DOCKER_STACK_DIR:-/opt/stacks}"
 
     volumes:
       - jenkins-home:/var/jenkins_home
