@@ -23,7 +23,7 @@ tool:
         home: "/usr/bin/git"
 
 jobs:
-  - script: |
+  - script: >
       job('freestyle-job') {
           description('My first freestyle job created by Job DSL')
 
@@ -37,7 +37,7 @@ jobs:
 
           steps {
               jobDsl {
-                 targets('jobs/*.groovy')
+                  targets('job/*.groovy')
               }
           }
       }
