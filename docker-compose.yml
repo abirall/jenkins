@@ -72,8 +72,8 @@ services:
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
 
-      AWS_REGION: "${AWS_REGION}"
-      AWS_APPLICATION_TAG: "${AWS_APPLICATION_TAG}"
+      # AWS_REGION: "${AWS_REGION}"
+      # AWS_APPLICATION_TAG: "${AWS_APPLICATION_TAG}"
 
       NB_SETUP_KEY: "${NB_SETUP_KEY}"
       # NB_HOSTNAME: "${NB_HOSTNAME}"
@@ -93,7 +93,7 @@ services:
 
       - /var/run/docker.sock:/var/run/docker.sock
 
-      - "${JENKINS_AWS_CREDENTIALS:-./.aws}:${JENKINS_HOME:-/var/jenkins_home}/.aws:ro"
+      # - "${JENKINS_AWS_CREDENTIALS:-./.aws}:${JENKINS_HOME:-/var/jenkins_home}/.aws:ro"
 
     networks:
       - dev
@@ -112,36 +112,36 @@ services:
   #     - dev
   #     - mail
 
-  postgres:
-    image: library/postgres:latest
-    container_name: postgres
-    healthcheck:
-      test: pg_isready --dbname=postgres --host=127.0.0.1 --port=5432 --username=postgres
-      interval: 2s
-      timeout: 20s
-      retries: 10
+  # postgres:
+  #   image: library/postgres:latest
+  #   container_name: postgres
+  #   healthcheck:
+  #     test: pg_isready --dbname=postgres --host=127.0.0.1 --port=5432 --username=postgres
+  #     interval: 2s
+  #     timeout: 20s
+  #     retries: 10
 
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+  #   environment:
+  #     POSTGRES_DB: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD_FILE: /run/secrets/db_password
 
-    volumes:
-      - postgres-data:/var/lib/postgresql
-      - "${POSTGRES_PASSWORD:-./.secrets/postgres/db_password}:/run/secrets/db_password:ro"
-      # - ./postgres/init:/docker-entrypoint-initdb.d:ro
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql
+  #     - "${POSTGRES_PASSWORD:-./.secrets/postgres/db_password}:/run/secrets/db_password:ro"
+  #     # - ./postgres/init:/docker-entrypoint-initdb.d:ro
 
-    ports:
-      - "${POSTGRES_PORT-5432}:5432"
+  #   ports:
+  #     - "${POSTGRES_PORT-5432}:5432"
 
-    networks:
-      - db
+  #   networks:
+  #     - db
 
 volumes:
   jenkins-home:
-  postgres-data:
+  # postgres-data:
 
 networks:
   dev:
   db:
-  mail:
+  # mail:
