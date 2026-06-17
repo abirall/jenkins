@@ -1,0 +1,16 @@
+tool:
+  terraform:
+    installations:
+    - name: "terraform-1.15.3"
+      properties:
+      - installSource:
+          installers:
+          - zip:
+              label: "linux"
+              url: "https://releases.hashicorp.com/terraform/1.15.3/terraform_1.15.3_linux_arm64.zip"
+          - zip:
+              label: "windows"
+              url: "https://releases.hashicorp.com/terraform/1.15.3/terraform_1.15.3_windows_arm64.zip"
+          - zip:
+              label: "macOS"
+              url: "https://releases.hashicorp.com/terraform/1.15.3/terraform_1.15.3_darwin_arm64.zip"

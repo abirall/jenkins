@@ -1,0 +1,16 @@
+tool:
+  customTool:
+    installations:
+      - name: "nuget"
+        home: "nuget"
+        properties:
+          - installSource:
+              installers:
+                - batchFile:
+                    toolHome: "."
+                    command: |
+                      @echo off
+                      if not exist "nuget.exe" (
+                        echo nuget.exe not found downloading from nuget.org
+                        curl.exe -L -o "nuget.exe" "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+                      )

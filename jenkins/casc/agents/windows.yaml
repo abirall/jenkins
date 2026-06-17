@@ -1,0 +1,58 @@
+jenkins:
+  nodes:
+    - permanent:
+        name: "windows-parallels"
+        remoteFS: "C:\\Jenkins"
+        numExecutors: 2
+        labelString: "windows dotnet"
+        mode: EXCLUSIVE
+        retentionStrategy: "always"
+        launcher:
+          inbound:
+            webSocket: false
+            workDirSettings:
+              disabled: false
+              internalDir: "remoting"
+              failIfWorkDirIsMissing: false
+              workDirPath: "C:\\Jenkins"
+
+# jenkins:
+#   nodes:
+#     - permanent:
+#         name: "datadimensions-kom"
+#         remoteFS: "D:\\Users\\knouri\\Jenkins"
+#         numExecutors: 2
+#         labelString: "windows dotnet datadimensions"
+#         mode: EXCLUSIVE
+#         launcher:
+#           inbound:
+#             tunnel: "jenkins.logicandcrayons.com:54396"
+#             webSocket: false
+#             workDirSettings:
+#               disabled: false
+#               internalDir: "remoting"
+#               failIfWorkDirIsMissing: false
+#               workDirPath: "D:\\Users\\knouri\\Jenkins"
+#         retentionStrategy:
+#           schedule:
+#             keepUpWhenActive: true
+#             startTimeSpec: |-
+#               TZ=America/New_York
+#               H 23 * * 1-5
+#             upTimeMins: 60
+    # - permanent:
+    #     name: "datadimensions-mcp3"
+    #     remoteFS: "C:\\Jenkins"
+    #     numExecutors: 2
+    #     labelString: "windows dotnet datadimensions"
+    #     mode: EXCLUSIVE
+    #     retentionStrategy: "always"
+    #     launcher:
+    #       inbound:
+    #         tunnel: "jenkins.logicandcrayons.com:54396"
+    #         webSocket: false
+    #         workDirSettings:
+    #           disabled: false
+    #           internalDir: "remoting"
+    #           failIfWorkDirIsMissing: false
+    #           workDirPath: "C:\\Jenkins"
