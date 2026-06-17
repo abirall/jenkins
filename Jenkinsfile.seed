@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    options {
+        disableConcurrentBuilds(abortPrevious: true)
+    }
+
+    stages {
+        //- todo: execute terraform 
+
+        stage('Jenkins Casc Setup') {
+            steps {
+                jobDsl(
+                    targets: 'jenkins/jobs/**/*.groovy',
+                    removedJobAction: 'DISABLE',
+                    removedViewAction: 'IGNORE',
+                    removedConfigFilesAction: 'IGNORE',
+                    lookupStrategy: 'JENKINS_ROOT',
+                    sandbox: false
+                )
+            }
+        }
+    }
+}

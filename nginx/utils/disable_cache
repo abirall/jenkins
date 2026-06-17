@@ -1,0 +1,8 @@
+proxy_hide_header Access-Control-Allow-Origin;
+proxy_hide_header X-Powered-By;
+
+
+add_header Last-Modified "$date_gmt";
+add_header Cache-Control "no-store, no-cache";
+expires off;
+etag off;
