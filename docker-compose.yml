@@ -46,13 +46,13 @@ services:
   #     RELAYHOST_USERNAME: ${SMTP_RELAY_HOST:-apikey}
   #     RELAYHOST_PASSWORD: ${SMTP_RELAY_HOST:-your-api-key}
 
-  #   networks:
+  #  # networks:
   #     - mail
 
   jenkins:
     build:
       context: jenkins
-      dockerfile: Dockerfile
+      dockerfile: ./jenkins/Dockerfile
     container_name: jenkins
     hostname: jenkins.local
     restart: unless-stopped
