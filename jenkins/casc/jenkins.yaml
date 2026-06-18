@@ -15,25 +15,26 @@ jenkins:
     roleBased:
       roles:
         global:
-        - name: "abir"
-          pattern: ".*"
-          entries:
-          - user: "admin"
-          permissions:
-          - "Overall/Administer"
-        - name: "abirdev"
-          pattern: ".*"
-          entries:
-          - user: "abirdev"
-          permissions:
-          - "Job/Cancel"
-          - "Overall/Read"
-          - "Job/Build"
-          - "Run/Update"
-          - "Job/Read"
-          - "Job/Workspace"
-          - "View/Read"
-          - "Run/Replay"
+          - name: "abir"
+            pattern: ".*"
+            entries:
+              - user: "admin"
+            permissions:
+              - "Overall/Administer"
+
+          - name: "abirdev"
+            pattern: ".*"
+            entries:
+              - user: "abirdev"
+            permissions:
+              - "Overall/Read"
+              - "View/Read"
+              - "Job/Read"
+              - "Job/Build"
+              - "Job/Cancel"
+              - "Job/Workspace"
+              - "Run/Replay"
+              - "Run/Update"
   numExecutors: 2
 
   projectNamingStrategy:
