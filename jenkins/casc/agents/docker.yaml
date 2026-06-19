@@ -31,4 +31,4 @@ jenkins:
 
             connector:
               attach:
-                user: "jenkins"
+                user: "root"
