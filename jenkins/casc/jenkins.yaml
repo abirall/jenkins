@@ -1,58 +1,70 @@
 jenkins:
-  systemMessage: "test" 
+  systemMessage: "Welcome to Jenkins"
 
-  securityRealm: 
-    local: 
-      allowsSignup: false 
-      users: 
+  numExecutors: 2
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
         - id: "abir"
           password: "admin123"
 
-        - id: "abirdev" 
+        - id: "abirdev"
           password: "dev123"
 
   authorizationStrategy:
     roleBased:
       roles:
         global:
-          - name: "abir"
-            pattern: ".*"
+          - name: "admin"
+            description: "Jenkins Administrator"
             entries:
-              - user: "admin"
+              - user: "abir"
             permissions:
               - "Overall/Administer"
 
-          - name: "abirdev"
-            pattern: ".*"
+          - name: "developer"
+            description: "Developer Access"
             entries:
               - user: "abirdev"
             permissions:
               - "Overall/Read"
               - "View/Read"
               - "Job/Read"
+              - "Job/Discover"
               - "Job/Build"
               - "Job/Cancel"
               - "Job/Workspace"
               - "Run/Replay"
               - "Run/Update"
-  numExecutors: 2
 
   projectNamingStrategy:
-      roleBased:
-        forceExistingJobs: true
+    roleBased:
+      forceExistingJobs: true
+
+# -------------------------------------------------------------------
+# Security
+# -------------------------------------------------------------------
 
 # security:
 #   contentSecurityPolicy:
 #     enforce: true
+#
 #   gitHostKeyVerificationConfiguration:
 #     sshHostKeyVerificationStrategy:
 #       manuallyProvidedKeyVerificationStrategy:
 #         approvedHostKeys: |-
-#           bitbucket.org ssh-rsa 
-#           bitbucket.org ecdsa-sha2-
-#           bitbucket.org ssh-ed25519 
+#           bitbucket.org ssh-rsa
+#           bitbucket.org ecdsa-sha2-nistp256
+#           bitbucket.org ssh-ed25519
+#
 #   globalJobDslSecurityConfiguration:
 #     useScriptSecurity: false
+
+# -------------------------------------------------------------------
+# Credentials
+# -------------------------------------------------------------------
 
 # credentials:
 #   system:
@@ -67,14 +79,19 @@ jenkins:
 #                 directEntry:
 #                   privateKey: "${logicandcrayons/jenkins/datadimensions-ssh}"
 
+# -------------------------------------------------------------------
+# Unclassified
+# -------------------------------------------------------------------
+
 # unclassified:
 #   location:
 #     url: "${JENKINS_URL}"
+#
 #   awsCredentialsProvider:
-#     cache: false # for now
+#     cache: false
 #     client:
 #       region: "${AWS_REGION}"
-#       # Optional. Prefer default AWS auth when Jenkins runs on EC2/ECS/EKS.
+#
 #     listSecrets:
 #       filters:
 #         - key: tag-key
@@ -83,13 +100,15 @@ jenkins:
 #         - key: tag-value
 #           values:
 #             - "${AWS_APPLICATION_TAG}"
+#
 #     transformations:
 #       description: "default"
 #       name:
 #         removePrefix:
 #           prefix: "logicandcrayons/jenkins/"
+#
 #   buildDiscarders:
-#       configuredBuildDiscarders:
+#     configuredBuildDiscarders:
 #       - "jobBuildDiscarder"
 #       - simpleBuildDiscarder:
 #           discarder:
