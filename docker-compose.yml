@@ -49,7 +49,7 @@ services:
 
   jenkins:
     build:
-      context: .
+      context: ./jenkins
       dockerfile: Dockerfile
     container_name: jenkins
     hostname: jenkins.local
@@ -73,30 +73,21 @@ services:
       # AWS_REGION: "${AWS_REGION}"
       # AWS_APPLICATION_TAG: "${AWS_APPLICATION_TAG}"
 
-      NB_SETUP_KEY: "${NB_SETUP_KEY:-}"
+      NB_SETUP_KEY: "${NB_SETUP_KEY}"
       # NB_HOSTNAME: "${NB_HOSTNAME}"
-      NB_MANAGEMENT_URL: "${NB_MANAGEMENT_URL:-}"
+      NB_MANAGEMENT_URL: "${NB_MANAGEMENT_URL}"
 
       # JENKINS_ROLE_ARN: "${JENKINS_ROLE_ARN}"
       JENKINS_HOME: "${JENKINS_HOME:-/var/jenkins_home}"
       JENKINS_OPTS: "${JENKINS_OPTS:---prefix=/jenkins}"
-      JENKINS_URL: "${JENKINS_URL:-/jenkins}"
+      JENKINS_URL: "${JENKINS_URL:-${ROOT_URL}/jenkins}"
 
       CASC_JENKINS_CONFIG: "${JENKINS_HOME:-/var/jenkins_home}/casc_configs"
       DOCKER_STACK_DIR: "${DOCKER_STACK_DIR:-/opt/stacks}"
-      JENKINS_ADMIN_USER: "${JENKINS_ADMIN_USER:?Set JENKINS_ADMIN_USER in .env}"
-      JENKINS_ADMIN_PASSWORD: "${JENKINS_ADMIN_PASSWORD:?Set JENKINS_ADMIN_PASSWORD in .env}"
-      JENKINS_DEV_USER: "${JENKINS_DEV_USER:?Set JENKINS_DEV_USER in .env}"
-      JENKINS_DEV_PASSWORD: "${JENKINS_DEV_PASSWORD:?Set JENKINS_DEV_PASSWORD in .env}"
-      SLACK_TEAM_DOMAIN: "${SLACK_TEAM_DOMAIN:-}"
-      SLACK_DEFAULT_CHANNEL: "${SLACK_DEFAULT_CHANNEL:-#jenkins}"
 
     volumes:
       - jenkins-home:${JENKINS_HOME:-/var/jenkins_home}
-      - ./casc:${JENKINS_HOME:-/var/jenkins_home}/casc_configs:ro
-      - ./jobs:${JENKINS_HOME:-/var/jenkins_home}/jobs:ro
-      - ./init.groovy.d:/usr/share/jenkins/ref/init.groovy.d:ro
-      - ./secrets:/run/secrets:ro
+      - ./jenkins/casc:${JENKINS_HOME:-/var/jenkins_home}/casc_configs
 
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -152,4 +143,3 @@ networks:
   dev:
   db:
   # mail:
-

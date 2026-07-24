@@ -1,4 +1,4 @@
 jobs:
-  - file: /var/jenkins_home/jobs/seed.groovy
-  - file: /var/jenkins_home/jobs/pipeline.groovy
-  - file: /var/jenkins_home/jobs/multibranch.groovy
+  - file: /var/jenkins_home/job-definitions/seed.groovy
+  - file: /var/jenkins_home/job-definitions/pipeline.groovy
+  - file: /var/jenkins_home/job-definitions/multibranch.groovy

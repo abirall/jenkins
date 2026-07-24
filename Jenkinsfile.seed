@@ -11,7 +11,7 @@ pipeline {
         stage('Jenkins Casc Setup') {
             steps {
                 jobDsl(
-                    targets: 'jobs/**/*.groovy',
+                    targets: 'jenkins/jobs/**/*.groovy',
                     removedJobAction: 'DISABLE',
                     removedViewAction: 'IGNORE',
                     removedConfigFilesAction: 'IGNORE',
