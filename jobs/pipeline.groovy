@@ -1,15 +1,23 @@
+pipelineJob('python-app') {
+    displayName('Python App')
+    description('Builds and deploys the Python application with Docker Compose.')
 
-pipeline {
+    definition {
+        cps {
+            sandbox(true)
+            script('''pipeline {
     agent {
-    label 'built-in'
-        }
+        label 'built-in'
+    }
+
+    options {
+        disableConcurrentBuilds(abortPrevious: true)
+    }
 
     stages {
-
         stage('Clone Repository') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/abirall/Python-App.git'
+                git branch: 'main', url: 'https://github.com/abirall/Python-App.git'
             }
         }
 
@@ -32,13 +40,17 @@ pipeline {
             }
         }
     }
-        post {
+
+    post {
         success {
             echo 'Python application deployed successfully.'
         }
 
         failure {
             echo 'Deployment failed.'
+        }
+    }
+}''')
         }
     }
 }

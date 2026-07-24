@@ -1,0 +1,6 @@
+unclassified:
+  slackNotifier:
+    teamDomain: "${SLACK_TEAM_DOMAIN}"
+    tokenCredentialId: "slack-token"
+    botUser: true
+    room: "${SLACK_DEFAULT_CHANNEL}"

@@ -1,19 +1,22 @@
 services:
   homer:
-  image: b4bz/homer:latest
-  restart: unless-stopped
-  container_name: homer
+    image: b4bz/homer:latest
+    restart: unless-stopped
+    container_name: homer
 
-  ports:
-    - "3000:8080"
+    ports:
+      - "3000:8080"
 
-  volumes:
-    - ./homer/assets:/www/assets
-    - ./homer/logo.svg:/www/logo.svg
+    volumes:
+      - ../homer/assets:/www/assets
+      - ../homer/logo.svg:/www/logo.svg
 
-  environment:
-    - UID=1000
-    - GID=1000
+    environment:
+      UID: "1000"
+      GID: "1000"
 
-  networks:
-    - dev
+    networks:
+      - dev
+
+networks:
+  dev:

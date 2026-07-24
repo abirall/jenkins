@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:latest
+FROM jenkins/jenkins:lts-jdk21
 
 USER root
 
@@ -6,7 +6,6 @@ RUN apt-get update && \
     apt-get install -y \
       ca-certificates \
       curl \
-      unzip \
       gnupg \
       lsb-release \
       gosu \
@@ -24,25 +23,14 @@ RUN apt-get update && \
       tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt-get update && \
     apt-get install -y docker-ce-cli && \
+    curl -fsSL https://pkgs.netbird.io/install.sh | sh && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/
+    rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g 986 docker || true
-RUN usermod -aG docker jenkins
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
-RUN apt-get update && \
-    apt-get install -y \
-      docker-ce-cli \
-      docker-buildx-plugin \
-      docker-compose-plugin
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
+    jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 
-
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "/tmp/awscliv2.zip" \
-    &&  unzip /tmp/awscliv2.zip -d /tmp\
-    && /tmp/aws/install \
-    && rm -rf /tmp/aws /tmp/awscliv2.zip
-
-
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-
-USER jenkins
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

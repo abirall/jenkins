@@ -1,0 +1,43 @@
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "${JENKINS_ADMIN_USER}"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+        - id: "${JENKINS_DEV_USER}"
+          password: "${JENKINS_DEV_PASSWORD}"
+
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+          - name: "admin"
+            description: "Jenkins Administrator"
+            entries:
+              - user: "${JENKINS_ADMIN_USER}"
+            permissions:
+              - "Overall/Administer"
+
+          - name: "developer"
+            description: "Developer Access"
+            entries:
+              - user: "${JENKINS_DEV_USER}"
+            permissions:
+              - "Overall/Read"
+              - "View/Read"
+              - "Job/Read"
+              - "Job/Discover"
+              - "Job/Build"
+              - "Job/Cancel"
+              - "Job/Workspace"
+              - "Run/Replay"
+              - "Run/Update"
+
+  projectNamingStrategy:
+    roleBased:
+      forceExistingJobs: true
+
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
