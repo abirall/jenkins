@@ -21,9 +21,6 @@ services:
     restart: unless-stopped
     container_name: homer
 
-    # ports:
-    #   - "${HOMER_PORT-8080}:8080"
-
     volumes:
       - ./homer/assets:/www/assets
       - ./homer/logo.svg:/www/logo.svg
@@ -34,22 +31,10 @@ services:
 
     networks:
       - dev
-  # smtp-relay:
-  #   image: boky/postfix
-  #   ports:
-  #     - "${SMTP_RELAY_PORT:-587}:587"
-  #   environment:
-  #     ALLOWED_SENDER_DOMAINS: ${SMTP_RELAY_SENDER_DOMAINS:-example.com}
-  #     RELAYHOST: "${SMTP_RELAY_HOST:-[smtp.sendgrid.net]:587}"
-  #     RELAYHOST_USERNAME: ${SMTP_RELAY_HOST:-apikey}
-  #     RELAYHOST_PASSWORD: ${SMTP_RELAY_HOST:-your-api-key}
-
-  #  # networks:
-  #     - mail
 
   jenkins:
     build:
-      context: ./jenkins
+      context: .
       dockerfile: Dockerfile
     container_name: jenkins
     hostname: jenkins.local
@@ -69,15 +54,9 @@ services:
 
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
-
-      # AWS_REGION: "${AWS_REGION}"
-      # AWS_APPLICATION_TAG: "${AWS_APPLICATION_TAG}"
-
       NB_SETUP_KEY: "${NB_SETUP_KEY}"
-      # NB_HOSTNAME: "${NB_HOSTNAME}"
       NB_MANAGEMENT_URL: "${NB_MANAGEMENT_URL}"
 
-      # JENKINS_ROLE_ARN: "${JENKINS_ROLE_ARN}"
       JENKINS_HOME: "${JENKINS_HOME:-/var/jenkins_home}"
       JENKINS_OPTS: "${JENKINS_OPTS:---prefix=/jenkins}"
       JENKINS_URL: "${JENKINS_URL:-${ROOT_URL}/jenkins}"
@@ -87,7 +66,7 @@ services:
 
     volumes:
       - jenkins-home:${JENKINS_HOME:-/var/jenkins_home}
-      - ./jenkins/casc:${JENKINS_HOME:-/var/jenkins_home}/casc_configs
+      - ./casc:${JENKINS_HOME:-/var/jenkins_home}/casc_configs
 
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -95,51 +74,9 @@ services:
 
     networks:
       - dev
-  # zulip:
-  #   image: ghcr.io/zulip/zulip-server:12.0-0
-  #   container_name: zulip
-  #   environment:
-  #     DISABLE_HTTPS: "${ZULIP_DISABLE_HTTPS}"
-  #     SETTING_EXTERNAL_HOST: "${ZULIP_URL}"
-  #     SETTING_ZULIP_ADMINISTRATOR: "${ZULIP_ADMINISTRATOR:-kom@ohmvision.com}"
-
-  #   ports:
-  #     - "${ZULIP_PORT-8082}:80"
-
-  #   networks:
-  #     - dev
-  #     - mail
-
-  # postgres:
-  #   image: library/postgres:latest
-  #   container_name: postgres
-  #   healthcheck:
-  #     test: pg_isready --dbname=postgres --host=127.0.0.1 --port=5432 --username=postgres
-  #     interval: 2s
-  #     timeout: 20s
-  #     retries: 10
-
-  #   environment:
-  #     POSTGRES_DB: postgres
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD_FILE: /run/secrets/db_password
-
-  #   volumes:
-  #     - postgres-data:/var/lib/postgresql
-  #     - "${POSTGRES_PASSWORD:-./.secrets/postgres/db_password}:/run/secrets/db_password:ro"
-  #     # - ./postgres/init:/docker-entrypoint-initdb.d:ro
-
-  #   ports:
-  #     - "${POSTGRES_PORT-5432}:5432"
-
-  #   networks:
-  #     - db
-
 volumes:
   jenkins-home:
-  # postgres-data:
 
 networks:
   dev:
   db:
-  # mail:
